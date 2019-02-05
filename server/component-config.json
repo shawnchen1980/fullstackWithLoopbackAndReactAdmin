@@ -1,0 +1,10 @@
+{
+  "loopback-content-range": {
+    "pattern": ["*.find"],
+    "relatedModels": true
+  },
+  "loopback-component-explorer": {
+    "mountPath": "/explorer",
+    "generateOperationScopedModels": true
+  }
+}
