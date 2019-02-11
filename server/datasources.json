@@ -1,13 +1,1 @@
-{
-  "memdb": { "name": "memdb", "connector": "memory" },
-  "db": {
-    "host": "ds056979.mlab.com",
-    "port": 56979,
-    "url": "",
-    "database": "wordbook",
-    "password": "123abc",
-    "name": "db",
-    "user": "admin",
-    "connector": "mongodb"
-  }
-}
+{"memdb":{"name":"memdb","connector":"memory"},"db":{"host":"ds056979.mlab.com","port":56979,"url":"","database":"wordbook","password":"123abc","name":"db","user":"admin","connector":"mongodb"}}

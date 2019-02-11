@@ -37,12 +37,12 @@ const httpClient = (url, options = {}) => {
   }
   const token = JSON.parse(localStorage.getItem("lbtoken"));
   if (token && token.value && token.value.id) {
-    options.headers.set("Authorization", `Bearer ${token.value.id}`);
+    options.headers.set("Authorization", ` ${token.value.id}`);
   }
   return fetchUtils.fetchJson(url, options);
 };
 const dataProvider = loopbackClient("http://localhost:3000/api", httpClient);
-const auth = authProvider("http://localhost:3000/api/Users/login");
+const auth = authProvider("http://localhost:3000/api/Users/login", history);
 //http://localhost:3000/api/Users/login
 const App = () => (
   <Admin

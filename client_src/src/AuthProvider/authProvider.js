@@ -1,7 +1,8 @@
 import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_CHECK, AUTH_ERROR } from "react-admin";
 import storage from "./storage";
+import { push, replace } from "react-router-redux";
 
-export const authProvider = (loginApiUrl, noAccessPage = "/login") => {
+export const authProvider = (loginApiUrl, history, noAccessPage = "/login") => {
   return (type, params) => {
     if (type === AUTH_LOGIN) {
       const request = new Request(loginApiUrl, {
@@ -29,8 +30,11 @@ export const authProvider = (loginApiUrl, noAccessPage = "/login") => {
     if (type === AUTH_ERROR) {
       const { status } = params;
       if (status === 401 || status === 403) {
-        storage.remove("lbtoken");
-        return Promise.reject();
+        //storage.remove("lbtoken");
+        //return Promise.reject({ redirectTo: noAccessPage });
+        // console.log("auth error");
+        // history.push("/unauthorized");
+        // return Promise.resolve({ redirectTo: noAccessPage });
       }
       return Promise.resolve();
     }

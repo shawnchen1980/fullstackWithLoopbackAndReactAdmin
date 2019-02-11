@@ -3,9 +3,42 @@
   "base": "PersistedModel",
   "idInjection": true,
   "options": { "validateUpsert": true },
-  "properties": { "name": { "type": "string", "required": true } },
+  "properties": {
+    "name": { "type": "string", "required": true },
+    "created": { "type": "date", "required": false }
+  },
+  "replaceOnPUT": true,
   "validations": [],
-  "relations": {},
-  "acls": [],
+  "relations": {
+    "owner": { "type": "belongsTo", "model": "User", "foreignKey": "ownerId" }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": ["find", "create", "findById"]
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": ["deleteById","updateAttributes","patchAttributes","upsert"]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    }
+  ],
   "methods": {}
 }

@@ -93,7 +93,7 @@ const renderInput = ({
 
 class Login extends Component {
   login = auth => {
-    this.props.setUser(auth.email);
+    //this.props.setUser(auth.email);
     this.props.userLogin(
       auth,
       this.props.location.state ? this.props.location.state.nextPathname : "/"
