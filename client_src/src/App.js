@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   fetchUtils,
   Admin,
@@ -7,6 +7,7 @@ import {
   EditGuesser,
   ShowGuesser
 } from "react-admin";
+import MyResource from "./components/CurrentWordList";
 // import jsonServerProvider from 'ra-data-json-server';
 import Login from "./components/Login";
 import { withRouter } from "react-router-dom";
@@ -16,12 +17,16 @@ import {
   WordbookList,
   WordbookShow,
   WordbookEdit,
-  WordbookCreate
+  WordbookCreate,
+  WordbookListHoc
 } from "./components/Wordbook";
 import userReducer from "./features/User/state";
+import wordbookReducer from "./features/Wordbook/state";
+import routeConvertor from "./utilities/RouteConvert";
 // const dataProvider = jsonServerProvider('http://localhost:3000/api');
-import loopbackClient from "react-admin-loopback";
-import { authProvider } from "./AuthProvider/authProvider";
+//import loopbackClient from "react-admin-loopback";
+import loopbackClient from "./DataProvider";
+import { authProvider } from "./DataProvider/authProvider";
 import createHistory from "history/createBrowserHistory";
 import setUserSaga from "./features/User/saga";
 import chineseMessages from "./lang/chinese";
@@ -41,30 +46,87 @@ const httpClient = (url, options = {}) => {
   }
   return fetchUtils.fetchJson(url, options);
 };
-const dataProvider = loopbackClient("http://localhost:3000/api", httpClient);
+const dataProvider = routeConvertor(
+  loopbackClient("http://localhost:3000/api", httpClient)
+);
 const auth = authProvider("http://localhost:3000/api/Users/login", history);
 //http://localhost:3000/api/Users/login
-const App = () => (
-  <Admin
-    loginPage={Login}
-    history={history}
-    appLayout={layout}
-    customRoutes={customRoutes}
-    customReducers={{ user: userReducer }}
-    customSagas={[setUserSaga]}
-    locale="cn"
-    i18nProvider={i18nProvider}
-    dataProvider={dataProvider}
-    authProvider={auth}
-  >
-    <Resource
-      name="Wordbooks"
-      list={WordbookList}
-      show={WordbookShow}
-      edit={WordbookEdit}
-      create={WordbookCreate}
-    />
-  </Admin>
-);
 
+class App extends Component {
+  state = { currentWordbook: "" };
+  setCurrentWordbook = v => {
+    this.setState({ currentWordbook: v });
+  };
+  render() {
+    console.log("app this.setcurrentwordbook", this.setCurrentWordbook);
+    const WList = WordbookListHoc(this.setCurrentWordbook);
+    // const resources = !!this.state.currentWordbook
+    //   ? [
+    //       <Resource
+    //         key="1"
+    //         name="Wordbooks"
+    //         list={WList}
+    //         show={WordbookShow}
+    //         edit={WordbookEdit}
+    //         create={WordbookCreate}
+    //       />,
+    //       <Resource
+    //         key="2"
+    //         name={`WordsFromBooks/${this.state.currentWordbook}/words`}
+    //         list={ListGuesser}
+    //         show={ShowGuesser}
+    //         edit={EditGuesser}
+    //         // create={WordbookCreate}
+    //       />
+    //     ]
+    //   : [
+    //       <Resource
+    //         key="1"
+    //         name="Wordbooks"
+    //         list={WList}
+    //         show={WordbookShow}
+    //         edit={WordbookEdit}
+    //         create={WordbookCreate}
+    //       />
+    //     ];
+    return (
+      <Admin
+        loginPage={Login}
+        history={history}
+        appLayout={layout}
+        customRoutes={customRoutes}
+        customReducers={{ user: userReducer, currentWordbook: wordbookReducer }}
+        customSagas={[setUserSaga]}
+        locale="cn"
+        i18nProvider={i18nProvider}
+        dataProvider={dataProvider}
+        authProvider={auth}
+      >
+        {/* <Resource
+          name="Wordbooks"
+          list={WordbookList}
+          show={WordbookShow}
+          edit={WordbookEdit}
+          create={WordbookCreate}
+        /> */}
+        <Resource
+          name="Wordbooks"
+          list={WList}
+          show={WordbookShow}
+          edit={WordbookEdit}
+          create={WordbookCreate}
+        />
+
+        <Resource
+          name={`WordsFromBooks/${this.state.currentWordbook}/words`}
+          list={ListGuesser}
+          show={ShowGuesser}
+          edit={EditGuesser}
+          // create={WordbookCreate}
+        />
+        {/* <MyResource /> */}
+      </Admin>
+    );
+  }
+}
 export default App;
