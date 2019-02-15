@@ -7,7 +7,8 @@ export default function(dataProvider) {
    */
   return (type, resource, params) => {
     let arr = resource.split("/");
-    if (arr.length > 0 && arr[0].toLowerCase() === "wordsfrombooks") {
+    let names = ["wordsfrombooks", "testsfrombooks"];
+    if (arr.length > 0 && names.includes(arr[0].toLowerCase())) {
       arr[0] = "Wordbooks";
       return dataProvider(type, arr.join("/"), params);
     }

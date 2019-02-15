@@ -20,6 +20,8 @@ import {
   WordbookCreate,
   WordbookListHoc
 } from "./components/Wordbook";
+import { WordCreate } from "./components/Word";
+import { WordTests } from "./components/WordTests";
 import userReducer from "./features/User/state";
 import wordbookReducer from "./features/Wordbook/state";
 import routeConvertor from "./utilities/RouteConvert";
@@ -122,6 +124,12 @@ class App extends Component {
           list={ListGuesser}
           show={ShowGuesser}
           edit={EditGuesser}
+          create={WordCreate}
+        />
+        <Resource
+          name={`testsfrombooks/${this.state.currentWordbook}/words`}
+          list={WordTests}
+
           // create={WordbookCreate}
         />
         {/* <MyResource /> */}
