@@ -9,6 +9,8 @@ import {
 } from "react-admin";
 import MyResource from "./components/CurrentWordList";
 // import jsonServerProvider from 'ra-data-json-server';
+import defaultMessages from "ra-language-english";
+import { Provider } from "react-redux";
 import Login from "./components/Login";
 import { withRouter } from "react-router-dom";
 import customRoutes from "./route";
@@ -32,12 +34,18 @@ import { authProvider } from "./DataProvider/authProvider";
 import createHistory from "history/createBrowserHistory";
 import setUserSaga from "./features/User/saga";
 import chineseMessages from "./lang/chinese";
+import createAdminStore from "./createAdminStore";
 
 const history = createHistory({ basename: "/" });
 const messages = {
   cn: chineseMessages
 };
-const i18nProvider = locale => messages[locale];
+const i18nProvider = locale => {
+  if (locale !== "en") {
+    return messages[locale];
+  }
+  return defaultMessages;
+};
 const httpClient = (url, options = {}) => {
   if (!options.headers) {
     options.headers = new Headers({ Accept: "application/json" });
@@ -62,78 +70,53 @@ class App extends Component {
   render() {
     console.log("app this.setcurrentwordbook", this.setCurrentWordbook);
     const WList = WordbookListHoc(this.setCurrentWordbook);
-    // const resources = !!this.state.currentWordbook
-    //   ? [
-    //       <Resource
-    //         key="1"
-    //         name="Wordbooks"
-    //         list={WList}
-    //         show={WordbookShow}
-    //         edit={WordbookEdit}
-    //         create={WordbookCreate}
-    //       />,
-    //       <Resource
-    //         key="2"
-    //         name={`WordsFromBooks/${this.state.currentWordbook}/words`}
-    //         list={ListGuesser}
-    //         show={ShowGuesser}
-    //         edit={EditGuesser}
-    //         // create={WordbookCreate}
-    //       />
-    //     ]
-    //   : [
-    //       <Resource
-    //         key="1"
-    //         name="Wordbooks"
-    //         list={WList}
-    //         show={WordbookShow}
-    //         edit={WordbookEdit}
-    //         create={WordbookCreate}
-    //       />
-    //     ];
+
     return (
-      <Admin
-        loginPage={Login}
-        history={history}
-        appLayout={layout}
-        customRoutes={customRoutes}
-        customReducers={{ user: userReducer, currentWordbook: wordbookReducer }}
-        customSagas={[setUserSaga]}
-        locale="cn"
-        i18nProvider={i18nProvider}
-        dataProvider={dataProvider}
-        authProvider={auth}
+      <Provider
+        store={createAdminStore({
+          authProvider: auth,
+          dataProvider,
+          i18nProvider,
+          history,
+          locale: "cn"
+        })}
       >
-        {/* <Resource
+        <Admin
+          loginPage={Login}
+          history={history}
+          appLayout={layout}
+          customRoutes={customRoutes}
+          authProvider={auth}
+        >
+          {/* <Resource
           name="Wordbooks"
           list={WordbookList}
           show={WordbookShow}
           edit={WordbookEdit}
           create={WordbookCreate}
         /> */}
-        <Resource
-          name="Wordbooks"
-          list={WList}
-          show={WordbookShow}
-          edit={WordbookEdit}
-          create={WordbookCreate}
-        />
+          <Resource
+            name="Wordbooks"
+            list={WList}
+            show={WordbookShow}
+            edit={WordbookEdit}
+            create={WordbookCreate}
+          />
 
-        <Resource
-          name={`WordsFromBooks/${this.state.currentWordbook}/words`}
-          list={ListGuesser}
-          show={ShowGuesser}
-          edit={EditGuesser}
-          create={WordCreate}
-        />
-        <Resource
-          name={`testsfrombooks/${this.state.currentWordbook}/words`}
-          list={WordTests}
-
-          // create={WordbookCreate}
-        />
-        {/* <MyResource /> */}
-      </Admin>
+          <Resource
+            name={`WordsFromBooks/${this.state.currentWordbook}/words`}
+            list={ListGuesser}
+            show={ShowGuesser}
+            edit={EditGuesser}
+            create={WordCreate}
+          />
+          <Resource
+            name={`testsfrombooks/${this.state.currentWordbook}/words`}
+            list={WordTests}
+          />
+          {/* <MyResource /> */}
+        </Admin>
+      </Provider>
     );
   }
 }
