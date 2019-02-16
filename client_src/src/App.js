@@ -68,7 +68,7 @@ class App extends Component {
     this.setState({ currentWordbook: v });
   };
   render() {
-    console.log("app this.setcurrentwordbook", this.setCurrentWordbook);
+    console.log("app this.setcurrentwordbook!", this.setCurrentWordbook);
     const WList = WordbookListHoc(this.setCurrentWordbook);
 
     return (

@@ -20,7 +20,7 @@ import setUserSaga from "./features/User/saga";
 
 import defaultMessages from "ra-language-english";
 import chineseMessages from "./lang/chinese";
-
+import reducers from "./reducers";
 const messages = {
   cn: chineseMessages
 };
@@ -62,6 +62,7 @@ export default ({
 
   const store = createStore(
     resettableAppReducer,
+    //reducers,
     {
       /* set your initial state here */
     },
@@ -79,5 +80,13 @@ export default ({
     )
   );
   sagaMiddleware.run(saga);
+
+  if (process.env.NODE_ENV !== "production") {
+    if (module.hot) {
+      module.hot.accept("./reducers", () => {
+        store.replaceReducer(reducers);
+      });
+    }
+  }
   return store;
 };
