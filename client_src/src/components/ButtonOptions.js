@@ -89,7 +89,7 @@ function ButtonOptions(props) {
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
           style={{
-            width: "25%"
+            width: "50%"
           }}
         >
           <span className={classes.imageSrc} />

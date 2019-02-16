@@ -35,7 +35,7 @@ import createHistory from "history/createBrowserHistory";
 import setUserSaga from "./features/User/saga";
 import chineseMessages from "./lang/chinese";
 import createAdminStore from "./createAdminStore";
-
+import { hot } from "react-hot-loader/root";
 const history = createHistory({ basename: "/" });
 const messages = {
   cn: chineseMessages
@@ -68,7 +68,7 @@ class App extends Component {
     this.setState({ currentWordbook: v });
   };
   render() {
-    console.log("app this.setcurrentwordbook!", this.setCurrentWordbook);
+    console.log("app this.setcurrentwordbook", this.setCurrentWordbook);
     const WList = WordbookListHoc(this.setCurrentWordbook);
 
     return (
@@ -120,4 +120,4 @@ class App extends Component {
     );
   }
 }
-export default App;
+export default hot(App);
