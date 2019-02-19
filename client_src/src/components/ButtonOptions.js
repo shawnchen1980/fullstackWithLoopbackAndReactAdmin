@@ -78,7 +78,7 @@ const styles = theme => ({
 });
 
 function ButtonOptions(props) {
-  const { classes, letters } = props;
+  const { classes, letters, userInput } = props;
 
   return (
     <div className={classes.root}>
@@ -88,6 +88,9 @@ function ButtonOptions(props) {
           key={letter}
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
+          onClick={() => {
+            userInput(letter);
+          }}
           style={{
             width: "50%"
           }}

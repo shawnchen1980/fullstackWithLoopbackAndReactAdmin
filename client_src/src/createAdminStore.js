@@ -81,12 +81,12 @@ export default ({
   );
   sagaMiddleware.run(saga);
 
-  if (process.env.NODE_ENV !== "production") {
-    if (module.hot) {
-      module.hot.accept("./reducers", () => {
-        store.replaceReducer(reducers);
-      });
-    }
-  }
+  // if (process.env.NODE_ENV !== "production") {
+  //   if (module.hot) {
+  //     module.hot.accept("./reducers", () => {
+  //       store.replaceReducer(reducers);
+  //     });
+  //   }
+  // }
   return store;
 };
