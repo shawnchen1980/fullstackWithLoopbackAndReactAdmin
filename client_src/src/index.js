@@ -32,10 +32,14 @@ const httpClient = (url, options = {}) => {
   }
   return fetchUtils.fetchJson(url, options);
 };
-const dataProvider = routeConvertor(
-  loopbackClient("http://localhost:3000/api", httpClient)
-);
-const auth = authProvider("http://localhost:3000/api/Users/login", history);
+let API_URL;
+if (process.env.NODE_ENV === "development") {
+  API_URL = "http://localhost:3000/api";
+} else {
+  API_URL = "/api";
+}
+const dataProvider = routeConvertor(loopbackClient("API_URL", httpClient));
+const auth = authProvider(`${API_URL}/Users/login`, history);
 
 const store = createAdminStore({
   authProvider: auth,
