@@ -1,1 +1,24 @@
-{"name":"WordMapping","base":"PersistedModel","idInjection":true,"options":{"validateUpsert":true},"properties":{},"validations":[],"relations":{"book":{"type":"belongsTo","model":"Wordbook","foreignKey":"bookId"},"word":{"type":"belongsTo","model":"Word","foreignKey":"wordId"}},"acls":[],"methods":{}}
+{
+  "name": "WordMapping",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "book": {
+      "type": "belongsTo",
+      "model": "Wordbook",
+      "foreignKey": "bookId"
+    },
+    "word": {
+      "type": "belongsTo",
+      "model": "Word",
+      "foreignKey": "wordId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

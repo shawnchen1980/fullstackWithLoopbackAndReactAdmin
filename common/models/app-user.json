@@ -1,0 +1,35 @@
+{
+  "name": "AppUser",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "wordbooks": {
+      "type": "hasMany",
+      "model": "Wordbook",
+      "foreignKey": "ownerId"
+    },
+    "practices": {
+      "type": "hasMany",
+      "model": "Practice",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": [
+        "__get__wordbooks",
+        "__get__practices",
+        "__create__practices"
+      ]
+    }
+  ],
+  "methods": {}
+}

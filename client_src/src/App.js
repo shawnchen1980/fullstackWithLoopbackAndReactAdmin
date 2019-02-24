@@ -22,6 +22,11 @@ import {
   WordbookCreate,
   WordbookListHoc
 } from "./components/Wordbook";
+import {
+  PracticeList,
+  PracticeListHoc,
+  PracticeRedirect
+} from "./components/Practice";
 import { WordCreate } from "./components/Word";
 import { WordTests } from "./components/WordTests";
 import userReducer from "./features/User/state";
@@ -63,8 +68,8 @@ if (process.env.NODE_ENV === "development") {
   API_URL = "/api";
 }
 const dataProvider = routeConvertor(loopbackClient(API_URL, httpClient));
-const auth = authProvider(`${API_URL}/Users/login`, history);
-//http://localhost:3000/api/Users/login
+const auth = authProvider(`${API_URL}/AppUsers/login`, history);
+//http://localhost:3000/api/AppUsers/login
 
 class App extends Component {
   state = { currentWordbook: "" };
@@ -106,6 +111,7 @@ class App extends Component {
             edit={WordbookEdit}
             create={WordbookCreate}
           />
+          <Resource name="Practices" list={WList} edit={PracticeRedirect} />
 
           <Resource
             name={`WordsFromBooks/${this.state.currentWordbook}/words`}
@@ -117,6 +123,11 @@ class App extends Component {
           <Resource
             name={`testsfrombooks/${this.state.currentWordbook}/words`}
             list={WordTests}
+          />
+          <Resource
+            name={`AppUsers/me/practices`}
+            list={ListGuesser}
+            options={{ label: "我的练习" }}
           />
           {/* <MyResource /> */}
         </Admin>

@@ -2,16 +2,30 @@
   "name": "Wordbook",
   "base": "PersistedModel",
   "idInjection": true,
-  "options": { "validateUpsert": true },
-  "mixins": { "Commons": true },
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "Commons": true
+  },
   "replaceOnPUT": true,
   "properties": {
-    "name": { "type": "string", "required": true },
-    "created": { "type": "date", "required": false }
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "created": {
+      "type": "date",
+      "required": false
+    }
   },
   "validations": [],
   "relations": {
-    "owner": { "type": "belongsTo", "model": "User", "foreignKey": "ownerId" },
+    "owner": {
+      "type": "belongsTo",
+      "model": "AppUser",
+      "foreignKey": "ownerId"
+    },
     "words": {
       "type": "hasMany",
       "model": "Word",
@@ -31,7 +45,11 @@
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW",
-      "property": ["find", "create", "findById"]
+      "property": [
+        "find",
+        "create",
+        "findById"
+      ]
     },
     {
       "accessType": "EXECUTE",

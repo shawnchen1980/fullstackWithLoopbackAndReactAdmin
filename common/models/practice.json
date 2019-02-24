@@ -1,31 +1,31 @@
 {
-  "name": "Word",
+  "name": "Practice",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "mixins": {
-    "Commons": true
-  },
   "properties": {
-    "spelling": {
-      "type": "string",
-      "required": true
+    "progress": {
+      "type": [
+        "number"
+      ]
+    },
+    "lastAccessed": {
+      "type": "date"
     }
   },
   "validations": [],
   "relations": {
-    "books": {
-      "type": "hasMany",
-      "model": "Wordbook",
-      "foreignKey": "wordId",
-      "through": "WordMapping"
-    },
     "owner": {
       "type": "belongsTo",
-      "model": "User",
+      "model": "AppUser",
       "foreignKey": "ownerId"
+    },
+    "wordbook": {
+      "type": "belongsTo",
+      "model": "Wordbook",
+      "foreignKey": "bookId"
     }
   },
   "acls": [],

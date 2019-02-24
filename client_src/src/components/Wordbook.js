@@ -1,6 +1,7 @@
 import React from "react";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
+import CreatePracticeButton from "./CreatePracticeButton";
 import { withRouter } from "react-router";
 import {
   List,
@@ -24,7 +25,7 @@ export const WordbookList = ({ setCurrentWordbook, ...props }) => {
         rowClick={(id, basePath, record) => {
           console.log(props.setWordbook);
           setCurrentWordbook(id);
-          return "edit";
+          return "show";
         }}
       >
         <TextField source="name" />
@@ -66,6 +67,7 @@ const WordbookActions = withRouter(({ basePath, data, resource, history }) => (
     >
       查看单词表
     </Button>
+    <CreatePracticeButton basePath={basePath} record={data} />
   </CardActions>
 ));
 export const WordbookShow = props => (
