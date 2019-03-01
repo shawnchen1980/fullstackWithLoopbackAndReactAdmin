@@ -42,6 +42,7 @@ export default (apiUrl, httpClient = fetchJson) => {
         url = `${apiUrl}/${resource}?${stringify({
           filter: JSON.stringify(query)
         })}`;
+        console.log("getlist", url);
         break;
       }
       case GET_ONE:
