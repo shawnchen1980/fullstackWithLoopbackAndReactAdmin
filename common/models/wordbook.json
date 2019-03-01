@@ -45,11 +45,7 @@
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW",
-      "property": [
-        "find",
-        "create",
-        "findById"
-      ]
+      "property": ["find", "create", "findById"]
     },
     {
       "accessType": "EXECUTE",
@@ -70,5 +66,33 @@
       "permission": "ALLOW"
     }
   ],
-  "methods": {}
+  "methods": {
+    "appCreate": {
+      "accepts": [
+        {
+          "arg": "name",
+          "type": "string",
+          "required": true,
+          "description": "the required name of a wordbook"
+        },
+        {
+          "arg": "words",
+          "type": "array",
+          "required": false,
+          "description": "an array of new words for the newly created wordbook"
+        },
+        { "arg": "options", "type": "object", "http": "optionsFromRequest" }
+      ],
+      "returns": [
+        {
+          "arg": "data",
+          "type": "object",
+          "root": true,
+          "description": "the newly created wordbook along with the new words in it."
+        }
+      ],
+      "description": "create a new wordbook possibly with some words in it.",
+      "http": { "path": "/appcreate", "verb": "post" }
+    }
+  }
 }

@@ -17,7 +17,7 @@ import ButtonOptions from "./ButtonOptions";
 import TestItem from "./TestItem";
 import { generateRandomCharArray } from "../utilities/random";
 import posed, { PoseGroup } from "react-pose";
-
+import { connect } from "react-redux";
 const Box = posed.div({
   inFromRight1: {
     opacity: 1,
@@ -126,10 +126,10 @@ class TestItems extends Component {
     this.switchToL();
   };
   render() {
-    const { ids, data, basePath, location, hisotry } = this.props;
+    const { ids, data, basePath, location } = this.props;
     console.log(ids, "data", data, location);
     if (ids.length)
-      [...data[ids[this.state.index]]["spelling"]].forEach(v =>
+      [...data[ids[this.state.index]]["word"]["spelling"]].forEach(v =>
         console.log(generateRandomCharArray(v, 4))
       );
 
@@ -144,7 +144,7 @@ class TestItems extends Component {
               <TestItem
                 key={this.state.index}
                 mode="learning"
-                spelling={data[ids[this.state.index]]["spelling"]}
+                spelling={data[ids[this.state.index]]["word"]["spelling"]}
                 onComplete={this.handleToNext}
               />
             ) : null}
@@ -160,3 +160,14 @@ export const WordTests = props => (
     <WordTestsWithRouter />
   </List>
 );
+
+const WordTestList = props => (
+  <List {...props}>
+    <TestItems />
+  </List>
+);
+const stateToMap = state => ({
+  filter: { bookId: state.currentWordbook }
+});
+
+export default connect(stateToMap)(WordTestList);

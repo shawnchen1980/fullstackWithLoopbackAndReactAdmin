@@ -1,5 +1,6 @@
 {
   "initial:before": {
+    "loopback-context#per-request": { "enableHttpContext": true },
     "loopback#favicon": {}
   },
   "initial": {
@@ -9,9 +10,7 @@
         "origin": true,
         "credentials": true,
         "maxAge": 86400,
-        "exposedHeaders": [
-          "X-Total-Count"
-        ]
+        "exposedHeaders": ["X-Total-Count"]
       }
     },
     "helmet#xssFilter": {},
@@ -44,23 +43,17 @@
   "parse": {},
   "routes": {
     "loopback#rest": {
-      "paths": [
-        "${restApiRoot}"
-      ]
+      "paths": ["${restApiRoot}"]
     }
   },
   "files": {
     "loopback#static": [
       {
-        "paths": [
-          "/"
-        ],
+        "paths": ["/"],
         "params": "$!../client_src/build"
       },
       {
-        "paths": [
-          "*"
-        ],
+        "paths": ["*"],
         "params": "$!../client_src/build"
       }
     ]

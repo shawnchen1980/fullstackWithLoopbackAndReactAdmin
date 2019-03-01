@@ -5,7 +5,8 @@ import {
   Resource,
   ListGuesser,
   EditGuesser,
-  ShowGuesser
+  ShowGuesser,
+  defaultI18nProvider
 } from "react-admin";
 import MyResource from "./components/CurrentWordList";
 // import jsonServerProvider from 'ra-data-json-server';
@@ -22,13 +23,15 @@ import {
   WordbookCreate,
   WordbookListHoc
 } from "./components/Wordbook";
+import { WordmappingList } from "./components/WordMapping";
 import {
   PracticeList,
   PracticeListHoc,
   PracticeRedirect
 } from "./components/Practice";
-import { WordCreate } from "./components/Word";
-import { WordTests } from "./components/WordTests";
+import { WordCreate, WordList } from "./components/Word";
+import WordTestList, { WordTests } from "./components/WordTests";
+
 import userReducer from "./features/User/state";
 import wordbookReducer from "./features/Wordbook/state";
 import routeConvertor from "./utilities/RouteConvert";
@@ -76,9 +79,11 @@ class App extends Component {
   setCurrentWordbook = v => {
     this.setState({ currentWordbook: v });
   };
+  WList = WordbookListHoc(this.setCurrentWordbook);
+  PList = PracticeListHoc(this.setCurrentWordbook);
   render() {
     console.log("app this.setcurrentwordbook", this.setCurrentWordbook);
-    const WList = WordbookListHoc(this.setCurrentWordbook);
+    // const WList = WordbookListHoc(this.setCurrentWordbook);
 
     return (
       <Provider
@@ -106,12 +111,12 @@ class App extends Component {
         /> */}
           <Resource
             name="Wordbooks"
-            list={WList}
+            list={this.WList}
             show={WordbookShow}
             edit={WordbookEdit}
             create={WordbookCreate}
           />
-          <Resource name="Practices" list={WList} edit={PracticeRedirect} />
+          {/* <Resource name="Practices" list={WList} edit={PracticeRedirect} /> */}
 
           <Resource
             name={`WordsFromBooks/${this.state.currentWordbook}/words`}
@@ -126,9 +131,17 @@ class App extends Component {
           />
           <Resource
             name={`AppUsers/me/practices`}
-            list={ListGuesser}
+            list={this.PList}
             options={{ label: "我的练习" }}
           />
+          <Resource
+            name={`Words`}
+            list={WordList}
+            show={ShowGuesser}
+            edit={EditGuesser}
+            create={WordCreate}
+          />
+          <Resource name={`WordMappings`} list={WordTestList} />
           {/* <MyResource /> */}
         </Admin>
       </Provider>
