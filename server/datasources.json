@@ -10,7 +10,7 @@
     "database": "wordbook",
     "password": "123abc",
     "name": "db",
-    "user": "admin",
+    "user": "admin2",
     "connector": "mongodb"
   }
 }

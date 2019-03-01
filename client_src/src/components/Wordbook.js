@@ -2,6 +2,7 @@ import React from "react";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import CreatePracticeButton from "./CreatePracticeButton";
+import EditableTextField from "./EditableTextField";
 import { withRouter } from "react-router";
 import {
   List,
@@ -30,6 +31,7 @@ export const WordbookList = ({ setCurrentWordbook, ...props }) => {
       >
         <TextField source="name" />
         <TextField source="id" />
+        <EditableTextField source="name" />
       </Datagrid>
     </List>
   );
