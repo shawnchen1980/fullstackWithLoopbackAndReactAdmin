@@ -2,6 +2,7 @@ import React from "react";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import CreatePracticeButton from "./CreatePracticeButton";
+import EditableTextField from "./EditableTextField";
 import BrowseWordbookButton from "./BrowseWordbookButton";
 import MyArrayInput from "./MyArrayInput";
 import ControlledPanel from "./ControlledPanel";
@@ -52,6 +53,7 @@ export const WordbookList = connect(
       >
         <TextField source="name" />
         <TextField source="id" />
+        <EditableTextField source="name" />
       </Datagrid>
     </List>
   );
