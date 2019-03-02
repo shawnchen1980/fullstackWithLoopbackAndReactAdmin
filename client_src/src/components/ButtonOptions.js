@@ -1,15 +1,17 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
-
+import * as animate from "animate.css/animate.css";
 const styles = theme => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
     minWidth: 300,
-    width: "100%"
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center"
   },
   image: {
     position: "relative",
@@ -29,27 +31,22 @@ const styles = theme => ({
       "& $imageTitle": {
         border: "4px solid currentColor"
       }
+    },
+    "&:focus": {
+      "& $imageRight": {
+        opacity: 1,
+        transitionDuration: "500ms"
+      }
     }
   },
   focusVisible: {},
-  imageButton: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: theme.palette.common.white
-  },
   imageSrc: {
     position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: theme.palette.common.white
+    backgroundColor: "grey"
   },
   imageBackdrop: {
     position: "absolute",
@@ -60,6 +57,28 @@ const styles = theme => ({
     backgroundColor: theme.palette.common.black,
     opacity: 0.4,
     transition: theme.transitions.create("opacity")
+  },
+  imageRight: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: "green",
+    opacity: 0,
+    transition: theme.transitions.create("opacity"),
+    transitionDuration: "500ms"
+  },
+  imageButton: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.palette.common.white
   },
   imageTitle: {
     position: "relative",
@@ -77,41 +96,72 @@ const styles = theme => ({
   }
 });
 
-function ButtonOptions(props) {
-  const { classes, letters, userInput } = props;
+class ButtonOptions extends Component {
+  state = {
+    animated: false
+  };
+  render() {
+    const { classes, letters, userInput } = this.props;
 
-  return (
-    <div className={classes.root}>
-      {letters.map(letter => (
-        <ButtonBase
-          focusRipple
-          key={letter}
-          className={classes.image}
-          focusVisibleClassName={classes.focusVisible}
-          onClick={() => {
-            userInput(letter);
-          }}
-          style={{
-            width: "50%"
-          }}
-        >
-          <span className={classes.imageSrc} />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              className={classes.imageTitle}
+    return (
+      <div className={classes.root}>
+        {letters.map(letter => {
+          let el;
+          return (
+            <ButtonBase
+              focusRipple
+              key={letter}
+              className={
+                this.state.animated
+                  ? [classes.image, animate.animated, animate.bounce].join(" ")
+                  : classes.image
+              }
+              focusVisibleClassName={classes.focusVisible}
+              ref={b => (el = b)}
+              onClick={() => {
+                //userInput(letter);
+                console.log(animate);
+                console.log("el", el, animate.animated, animate.bounce);
+                //el.classList.add(animate.animate, animate.bounce);
+                this.setState({ animated: !this.state.animated });
+                //this.setState({ animated: true });
+              }}
+              onAnimationEnd={() => {
+                this.setState({ animated: false });
+              }}
+              // onTransitionEnd={e => {
+              //   console.log(
+              //     "transition",
+              //     e.propertyName,
+              //     e.pseudoElement,
+              //     e.elapsedTime
+              //   );
+              //   userInput(letter);
+              // }}
+              style={{
+                width: "50%",
+                maxWidth: 200
+              }}
             >
-              {letter}
-              <span className={classes.imageMarked} />
-            </Typography>
-          </span>
-        </ButtonBase>
-      ))}
-    </div>
-  );
+              <span className={classes.imageSrc} />
+              <span className={classes.imageRight} />
+              <span className={classes.imageButton}>
+                <Typography
+                  component="span"
+                  variant="subtitle1"
+                  color="inherit"
+                  className={classes.imageTitle}
+                >
+                  {letter}
+                  <span className={classes.imageMarked} />
+                </Typography>
+              </span>
+            </ButtonBase>
+          );
+        })}
+      </div>
+    );
+  }
 }
 
 ButtonOptions.propTypes = {
