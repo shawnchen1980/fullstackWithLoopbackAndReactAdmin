@@ -8,7 +8,7 @@
   "properties": {},
   "validations": [],
   "relations": {
-    "book": {
+    "wordbook": {
       "type": "belongsTo",
       "model": "Wordbook",
       "foreignKey": "bookId"

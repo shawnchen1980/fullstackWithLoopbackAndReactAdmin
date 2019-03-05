@@ -16,11 +16,12 @@
   },
   "validations": [],
   "relations": {
-    "books": {
+    "wordbooks": {
       "type": "hasMany",
       "model": "Wordbook",
       "foreignKey": "wordId",
-      "through": "WordMapping"
+      "through": "WordMapping",
+      "keyThrough": "bookId"
     },
     "owner": {
       "type": "belongsTo",

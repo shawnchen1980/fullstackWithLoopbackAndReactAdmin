@@ -30,7 +30,8 @@
       "type": "hasMany",
       "model": "Word",
       "foreignKey": "bookId",
-      "through": "WordMapping"
+      "through": "WordMapping",
+      "keyThrough": "wordId"
     }
   },
   "acls": [
@@ -46,6 +47,12 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": ["find", "create", "findById"]
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__get__sayhello"
     },
     {
       "accessType": "EXECUTE",
