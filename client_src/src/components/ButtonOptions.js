@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
 import * as animate from "animate.css/animate.css";
+import ButtonOption from "./ButtonOption";
 const styles = theme => ({
   root: {
     display: "flex",
@@ -101,63 +102,72 @@ class ButtonOptions extends Component {
     animated: false
   };
   render() {
-    const { classes, letters, userInput } = this.props;
+    const { classes, letters, userInput, theLetter, charIndex } = this.props;
 
     return (
       <div className={classes.root}>
         {letters.map(letter => {
-          let el;
           return (
-            <ButtonBase
-              focusRipple
-              key={letter}
-              className={
-                this.state.animated
-                  ? [classes.image, animate.animated, animate.bounce].join(" ")
-                  : classes.image
-              }
-              focusVisibleClassName={classes.focusVisible}
-              ref={b => (el = b)}
-              onClick={() => {
-                //userInput(letter);
-                console.log(animate);
-                console.log("el", el, animate.animated, animate.bounce);
-                //el.classList.add(animate.animate, animate.bounce);
-                this.setState({ animated: !this.state.animated });
-                //this.setState({ animated: true });
-              }}
-              onAnimationEnd={() => {
-                this.setState({ animated: false });
-              }}
-              // onTransitionEnd={e => {
-              //   console.log(
-              //     "transition",
-              //     e.propertyName,
-              //     e.pseudoElement,
-              //     e.elapsedTime
-              //   );
-              //   userInput(letter);
-              // }}
-              style={{
-                width: "50%",
-                maxWidth: 200
-              }}
-            >
-              <span className={classes.imageSrc} />
-              <span className={classes.imageRight} />
-              <span className={classes.imageButton}>
-                <Typography
-                  component="span"
-                  variant="subtitle1"
-                  color="inherit"
-                  className={classes.imageTitle}
-                >
-                  {letter}
-                  <span className={classes.imageMarked} />
-                </Typography>
-              </span>
-            </ButtonBase>
+            <ButtonOption
+              key={letter + charIndex}
+              letter={letter}
+              correct={letter === theLetter}
+              userInput={userInput}
+            />
           );
+
+          // let el;
+          // return (
+          //   <ButtonBase
+          //     focusRipple
+          //     key={letter}
+          //     className={
+          //       this.state.animated
+          //         ? [classes.image, animate.animated, animate.bounce].join(" ")
+          //         : classes.image
+          //     }
+          //     focusVisibleClassName={classes.focusVisible}
+          //     ref={b => (el = b)}
+          //     onClick={() => {
+          //       //userInput(letter);
+          //       console.log(animate);
+          //       console.log("el", el, animate.animated, animate.bounce);
+          //       //el.classList.add(animate.animate, animate.bounce);
+          //       this.setState({ animated: !this.state.animated });
+          //       //this.setState({ animated: true });
+          //     }}
+          //     onAnimationEnd={() => {
+          //       this.setState({ animated: false });
+          //     }}
+          //     // onTransitionEnd={e => {
+          //     //   console.log(
+          //     //     "transition",
+          //     //     e.propertyName,
+          //     //     e.pseudoElement,
+          //     //     e.elapsedTime
+          //     //   );
+          //     //   userInput(letter);
+          //     // }}
+          //     style={{
+          //       width: "50%",
+          //       maxWidth: 200
+          //     }}
+          //   >
+          //     <span className={classes.imageSrc} />
+          //     <span className={classes.imageRight} />
+          //     <span className={classes.imageButton}>
+          //       <Typography
+          //         component="span"
+          //         variant="subtitle1"
+          //         color="inherit"
+          //         className={classes.imageTitle}
+          //       >
+          //         {letter}
+          //         <span className={classes.imageMarked} />
+          //       </Typography>
+          // //     </span>
+          //   </ButtonBase>
+          // );
         })}
       </div>
     );

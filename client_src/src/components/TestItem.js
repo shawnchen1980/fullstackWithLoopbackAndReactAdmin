@@ -8,6 +8,7 @@ const styles = theme => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
+    flexDirection: "column",
     minWidth: 300,
     width: "100%",
     alignItems: "center",
@@ -21,14 +22,19 @@ class TestItem extends Component {
 
     if (mode === "learning" && c !== spelling.charAt(this.state.charIndex))
       return;
-    this.setState(preState => ({
-      userInput: preState.userInput.concat(c),
-      charIndex: preState.charIndex + 1
-    }));
-    if (this.state.userInput.length === spelling.length - 1)
-      return setTimeout(() => {
-        onComplete();
-      }, 1000);
+
+    this.setState(
+      preState => ({
+        userInput: preState.userInput.concat(c),
+        charIndex: preState.charIndex + 1
+      }),
+      () => {
+        if (this.state.userInput.length === spelling.length)
+          return setTimeout(() => {
+            onComplete();
+          }, 1000);
+      }
+    );
   }
   componentWillReceiveProps() {
     this.setState({ charIndex: 0, userInput: [] });
@@ -50,6 +56,8 @@ class TestItem extends Component {
               this.props.spelling.charAt(this.state.charIndex),
               2
             )}
+            charIndex={this.state.charIndex}
+            theLetter={this.props.spelling.charAt(this.state.charIndex)}
             //letters={["a", "b", "c", "d"]}
             userInput={this.handleInput.bind(this)}
           />
