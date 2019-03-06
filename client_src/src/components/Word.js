@@ -19,7 +19,7 @@ const stateToProps = state => ({
   api_url: `wordbooks/${state.currentWordbook}/words`
 });
 export const WordList = connect(stateToProps)(
-  ({ api_url, filter, ...props }) => (
+  ({ api_url, filter, dispatch, ...props }) => (
     <List {...props} filter={{ ...filter, api_url }}>
       <Datagrid rowClick="edit">
         <TextField source="spelling" />

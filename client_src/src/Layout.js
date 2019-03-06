@@ -9,7 +9,12 @@ import MyAppBar from "./components/AppBar";
 const MyLayout = props => {
   console.log(props);
   let result;
-  if (props.location.pathname === "/signup") result = props.children;
+  if (
+    props.location.pathname === "/signup/" ||
+    props.location.pathname === "/Wordbooks" ||
+    props.location.pathname === "/sayhello"
+  )
+    result = props.children;
   else
     result = (
       <Layout

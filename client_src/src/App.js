@@ -30,7 +30,10 @@ import {
   PracticeRedirect
 } from "./components/Practice";
 import { WordCreate, WordList } from "./components/Word";
-import WordTestList, { WordTests } from "./components/WordTests";
+import WordTestList, {
+  WordTestList as WTestList,
+  WordTests
+} from "./components/WordTests";
 
 import userReducer from "./features/User/state";
 import wordbookReducer from "./features/Wordbook/state";
@@ -118,7 +121,7 @@ class App extends Component {
           />
           {/* <Resource name="Practices" list={WList} edit={PracticeRedirect} /> */}
 
-          <Resource
+          {/* <Resource
             name={`WordsFromBooks/${this.state.currentWordbook}/words`}
             list={ListGuesser}
             show={ShowGuesser}
@@ -128,7 +131,7 @@ class App extends Component {
           <Resource
             name={`testsfrombooks/${this.state.currentWordbook}/words`}
             list={WordTests}
-          />
+          /> */}
           <Resource
             name={`AppUsers/me/practices`}
             list={this.PList}
@@ -142,6 +145,8 @@ class App extends Component {
             create={WordCreate}
           />
           <Resource name={`WordMappings`} list={WordTestList} />
+          <Resource name="sayhello" list={WTestList} />
+          {/* <Resource name="sayhello" list={() => <div>hello world</div>} /> */}
           {/* <MyResource /> */}
         </Admin>
       </Provider>

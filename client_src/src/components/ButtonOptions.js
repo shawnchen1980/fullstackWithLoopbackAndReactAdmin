@@ -148,7 +148,7 @@ class ButtonOptions extends Component {
               <span className={classes.imageButton}>
                 <Typography
                   component="span"
-                  variant="subtitle1"
+                  variant="title"
                   color="inherit"
                   className={classes.imageTitle}
                 >

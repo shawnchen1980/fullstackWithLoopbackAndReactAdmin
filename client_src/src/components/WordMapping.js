@@ -27,7 +27,7 @@ const WList = props => (
       <TextField source="bookId" />
       <TextField source="wordId" />
 
-      <TextField source="book.name" />
+      <TextField source="wordbook.name" />
       <TextField source="word.spelling" />
     </Datagrid>
   </List>

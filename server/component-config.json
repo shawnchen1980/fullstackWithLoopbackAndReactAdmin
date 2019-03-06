@@ -1,8 +1,6 @@
 {
   "loopback-content-range": {
-    "pattern": [
-      "*.find"
-    ],
+    "pattern": ["*.find", "*.helloWords"],
     "relatedModels": true
   },
   "loopback-component-explorer": {

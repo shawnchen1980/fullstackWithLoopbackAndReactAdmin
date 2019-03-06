@@ -46,4 +46,28 @@ module.exports = function(Wordbook) {
         callback(null, data);
       });
   };
+
+  /**
+   * return words from a certain wordbook, which could be used by visitor users
+   * @param {object} filter the filter for the words
+   * @param {Function(Error, array)} callback
+   */
+
+  Wordbook.helloWords = function(filter, callback) {
+    var data = [];
+    var app = Wordbook.app;
+    Wordbook.findOne({ where: { name: "new book1" } })
+      .then(book => {
+        console.log(book);
+        return book.words.find(filter);
+      })
+      .then(words => {
+        console.log("words", words);
+        callback(null, words);
+      });
+
+    console.log("for filter", filter);
+    // TODO
+    // callback(null, data);
+  };
 };

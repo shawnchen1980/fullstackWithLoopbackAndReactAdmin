@@ -127,12 +127,22 @@ class TestItems extends Component {
   };
   render() {
     const { ids, data, basePath, location } = this.props;
-    console.log(ids, "data", data, location);
-    if (ids.length)
-      [...data[ids[this.state.index]]["word"]["spelling"]].forEach(v =>
-        console.log(generateRandomCharArray(v, 4))
-      );
-
+    // console.log(ids, "data", data, location);
+    // if (ids.length)
+    //   [...data[ids[this.state.index]]["word"]["spelling"]].forEach(v =>
+    //     console.log(generateRandomCharArray(v, 4))
+    //   );
+    console.log(ids, data, this.state.index);
+    const spelling =
+      ids.length &&
+      ids[this.state.index] &&
+      data[ids[this.state.index]]["spelling"]
+        ? data[ids[this.state.index]]["spelling"]
+        : ids.length &&
+          ids[this.state.index] &&
+          data[ids[this.state.index]]["word"]
+        ? data[ids[this.state.index]]["word"]["spelling"]
+        : null;
     return (
       <ErrorBoundary>
         <div>
@@ -140,11 +150,11 @@ class TestItems extends Component {
           <button onClick={this.handleToNext}>next</button>
 
           <Box pose={this.state.myPose}>
-            {ids.length ? (
+            {spelling ? (
               <TestItem
                 key={this.state.index}
                 mode="learning"
-                spelling={data[ids[this.state.index]]["word"]["spelling"]}
+                spelling={spelling}
                 onComplete={this.handleToNext}
               />
             ) : null}
@@ -161,7 +171,7 @@ export const WordTests = props => (
   </List>
 );
 
-const WordTestList = props => (
+export const WordTestList = ({ dispatch, ...props }) => (
   <List {...props}>
     <TestItems />
   </List>

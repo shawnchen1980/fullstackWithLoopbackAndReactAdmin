@@ -52,7 +52,7 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "__get__sayhello"
+      "property": "helloWords"
     },
     {
       "accessType": "EXECUTE",
@@ -88,7 +88,11 @@
           "required": false,
           "description": "an array of new words for the newly created wordbook"
         },
-        { "arg": "options", "type": "object", "http": "optionsFromRequest" }
+        {
+          "arg": "options",
+          "type": "object",
+          "http": "optionsFromRequest"
+        }
       ],
       "returns": [
         {
@@ -99,7 +103,35 @@
         }
       ],
       "description": "create a new wordbook possibly with some words in it.",
-      "http": { "path": "/appcreate", "verb": "post" }
+      "http": {
+        "path": "/appcreate",
+        "verb": "post"
+      }
+    },
+    "helloWords": {
+      "accepts": [
+        {
+          "arg": "filter",
+          "type": "object",
+          "required": false,
+          "description": "the filter for the words"
+        }
+      ],
+      "returns": [
+        {
+          "arg": "data",
+          "type": "array",
+          "root": true,
+          "description": "all words from this vistor's  wordbook"
+        }
+      ],
+      "description": "return words from a certain wordbook, which could be used by visitor users",
+      "http": [
+        {
+          "path": "/hellowords",
+          "verb": "get"
+        }
+      ]
     }
   }
 }

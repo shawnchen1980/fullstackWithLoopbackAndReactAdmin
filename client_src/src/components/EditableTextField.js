@@ -58,6 +58,7 @@ class EditableTextField extends Component {
   render() {
     const { source, record, location, match, history, basePath } = this.props;
     console.log("editable", location, match, history, basePath);
+    const { renameWordbook, ...others } = this.props;
     return (
       <div
         onClick={e => {
@@ -65,7 +66,7 @@ class EditableTextField extends Component {
         }}
       >
         {this.state.read ? (
-          <TextField {...this.props} />
+          <TextField source={source} record={record} />
         ) : (
           <Fragment>
             <input onChange={this.handleChange} value={this.state.text} />

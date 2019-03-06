@@ -39,8 +39,11 @@ export default function(dataProvider) {
     ) {
       return dataProvider(type, resource, {
         ...params,
-        include: ["book", "word"]
+        include: ["wordbook", "word"]
       });
+    }
+    if (resource === "sayhello") {
+      return dataProvider(type, "wordbooks/hellowords", params);
     }
     // if (arr[0] && arr[0].toLowerCase() === "words") {
     //   const { filter, ...newp } = params;
