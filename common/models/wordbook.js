@@ -56,14 +56,20 @@ module.exports = function(Wordbook) {
   Wordbook.helloWords = function(filter, callback) {
     var data = [];
     var app = Wordbook.app;
+    var WordMapping = app.models.WordMapping;
+    console.log("filter from helloWords", filter);
     Wordbook.findOne({ where: { name: "new book1" } })
       .then(book => {
         console.log(book);
-        return book.words.find(filter);
+        console.log(filter.where);
+        return Promise.all([
+          book.words.find(filter),
+          WordMapping.count({ bookId: book.id })
+        ]);
       })
-      .then(words => {
-        console.log("words", words);
-        callback(null, words);
+      .then(results => {
+        console.log("results", results);
+        callback(null, results);
       });
 
     console.log("for filter", filter);

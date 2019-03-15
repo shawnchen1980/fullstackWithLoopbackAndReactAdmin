@@ -16,123 +16,91 @@ import ErrorBoundary from "./ErrorBoundary";
 import ButtonOptions from "./ButtonOptions";
 import TestItem from "./TestItem";
 import { generateRandomCharArray } from "../utilities/random";
-import posed, { PoseGroup } from "react-pose";
 import { connect } from "react-redux";
-const Box = posed.div({
-  inFromRight1: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      x: ({ from, to }) => ({
-        type: "keyframes",
-        values: [from, -1000, 1000, to],
-        times: [0, 0.5, 0.51, 1],
-        duration: 1000
-      }),
-      opacity: ({ from, to }) => ({
-        type: "keyframes",
-        values: [from, 0, 0, to],
-        times: [0, 0.5, 0.51, 1],
-        duration: 1000
-      })
-    }
+import { withStyles } from "@material-ui/core/styles";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+const styles = theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    minWidth: 300,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  inFromRight2: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      x: ({ from, to }) => ({
-        type: "keyframes",
-        values: [from, -1000, 1000, to],
-        times: [0, 0.5, 0.51, 1],
-        duration: 1000
-      }),
-      opacity: ({ from, to }) => ({
-        type: "keyframes",
-        values: [from, 0, 0, to],
-        times: [0, 0.5, 0.51, 1],
-        duration: 1000
-      })
-    }
+  test: {
+    backgroundColor: "red",
+    position: "relative",
+    width: "100%",
+    height: "100vh"
   },
-  inFromLeft1: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      x: ({ from, to }) => ({
-        type: "keyframes",
-        values: [from, 1000, -1000, to],
-        times: [0, 0.5, 0.51, 1],
-        duration: 1000
-      }),
-      opacity: ({ from, to }) => ({
-        type: "keyframes",
-        values: [from, 0, 0, to],
-        times: [0, 0.5, 0.51, 1],
-        duration: 1000
-      })
-    }
+  progress: {
+    margin: "auto",
+    display: "block"
   },
-  inFromLeft2: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      x: ({ from, to }) => ({
-        type: "keyframes",
-        values: [from, 1000, -1000, to],
-        times: [0, 0.5, 0.51, 1],
-        duration: 1000
-      }),
-      opacity: ({ from, to }) => ({
-        type: "keyframes",
-        values: [from, 0, 0, to],
-        times: [0, 0.5, 0.51, 1],
-        duration: 1000
-      })
-    }
+  rtolEnter: {
+    transform: "translateX(100vw)"
+  },
+  ltorEnter: {
+    transform: "translateX(-100vw)"
+  },
+
+  rtolEnterActive: {
+    transform: "translateX(0)",
+    transition: "all 500ms ease-in-out"
+  },
+  ltorEnterActive: {
+    transform: "translateX(0)",
+    transition: "all 500ms ease-in-out"
+  },
+
+  rtolLeave: {
+    transform: "translateX(0)"
+  },
+  ltorLeave: {
+    transform: "translateX(0)"
+  },
+  rtolLeaveActive: {
+    transform: "translateX(-100vw)",
+    transition: "all 500ms ease-in-out"
+  },
+  ltorLeaveActive: {
+    transform: "translateX(100vw)",
+    transition: "all 500ms ease-in-out"
   }
 });
-
 class TestItems extends Component {
   state = { index: 0, swipeToLeft: true, myPose: "inFromRight1" };
-  switchToL = () => {
-    this.setState({
-      swipeToLeft: true,
-      myPose:
-        this.state.myPose === "inFromRight1" ? "inFromRight2" : "inFromRight1"
-    });
-  };
-  switchToR = () => {
-    this.setState({
-      swipeToLeft: false,
-      myPose:
-        this.state.myPose === "inFromLeft1" ? "inFromLeft2" : "inFromLeft1"
-    });
-  };
+
   handleToPrev = () => {
     const { ids, data, basePath } = this.props;
-    this.setState(prevState => {
-      return !!prevState.index ? { index: prevState.index - 1 } : prevState;
+    this.setState({ swipeToLeft: false }, _ => {
+      this.setState(prevState => {
+        return !!prevState.index ? { index: prevState.index - 1 } : prevState;
+      });
     });
-    this.switchToR();
   };
   handleToNext = () => {
     const { ids, data, basePath } = this.props;
-    this.setState(prevState => {
-      return prevState.index < ids.length - 1
-        ? { index: prevState.index + 1 }
-        : prevState;
+    this.setState({ swipeToLeft: true }, _ => {
+      this.setState(prevState => {
+        return prevState.index < ids.length - 1
+          ? { index: prevState.index + 1 }
+          : prevState;
+      });
     });
-    this.switchToL();
   };
+
   render() {
-    const { ids, data, basePath, location } = this.props;
+    const { ids, data, basePath, location, classes } = this.props;
     // console.log(ids, "data", data, location);
     // if (ids.length)
     //   [...data[ids[this.state.index]]["word"]["spelling"]].forEach(v =>
     //     console.log(generateRandomCharArray(v, 4))
     //   );
-    console.log(ids, data, this.state.index);
+    console.log("rendering");
     const spelling =
       ids.length &&
       ids[this.state.index] &&
@@ -143,28 +111,67 @@ class TestItems extends Component {
           data[ids[this.state.index]]["word"]
         ? data[ids[this.state.index]]["word"]["spelling"]
         : null;
+    const renderItem = () => {
+      return spelling ? (
+        <TestItem
+          key={this.state.index}
+          mode="learning"
+          spelling={spelling}
+          onComplete={this.handleToNext}
+        />
+      ) : (
+        <CircularProgress className={classes.progress} />
+      );
+    };
+    const { swipeToLeft } = this.state;
     return (
       <ErrorBoundary>
-        <div>
+        <div className={classes.test}>
           <button onClick={this.handleToPrev}>prev</button>
           <button onClick={this.handleToNext}>next</button>
 
-          <Box pose={this.state.myPose}>
-            {spelling ? (
+          {/* <Box pose={this.state.myPose}>
+            { {spelling ? (
               <TestItem
                 key={this.state.index}
                 mode="learning"
                 spelling={spelling}
                 onComplete={this.handleToNext}
               />
-            ) : null}
-          </Box>
+            ) : null} 
+            renderItem()}
+          </Box> */}
+          <TransitionGroup>
+            <CSSTransition
+              timeout={{ exit: 300, enter: 1500 }}
+              key={this.state.index}
+              classNames={
+                swipeToLeft
+                  ? {
+                      enter: classes.rtolEnter,
+                      enterActive: classes.rtolEnterActive,
+
+                      exit: classes.rtolLeaveActive,
+                      exitActive: classes.rtolLeaveActive
+                    }
+                  : {
+                      enter: classes.ltorEnter,
+                      enterActive: classes.ltorEnterActive,
+
+                      exit: classes.ltorLeaveActive,
+                      exitActive: classes.ltorLeaveActive
+                    }
+              }
+            >
+              {renderItem()}
+            </CSSTransition>
+          </TransitionGroup>
         </div>
       </ErrorBoundary>
     );
   }
 }
-const WordTestsWithRouter = withRouter(TestItems);
+const WordTestsWithRouter = withStyles(styles)(withRouter(TestItems));
 export const WordTests = props => (
   <List {...props} perPage={5}>
     <WordTestsWithRouter />
@@ -173,7 +180,7 @@ export const WordTests = props => (
 
 export const WordTestList = ({ dispatch, ...props }) => (
   <List {...props}>
-    <TestItems />
+    <WordTestsWithRouter />
   </List>
 );
 const stateToMap = state => ({

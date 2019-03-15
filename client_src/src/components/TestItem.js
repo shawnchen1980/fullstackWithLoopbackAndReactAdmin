@@ -1,22 +1,33 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ButtonOptions from "./ButtonOptions";
-import { generateRandomCharArray } from "../utilities/random";
+import {
+  generateRandomCharArray,
+  generateCharArrayWith
+} from "../utilities/random";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   root: {
     display: "flex",
+    position: "absolute",
     flexWrap: "wrap",
     flexDirection: "column",
     minWidth: 300,
     width: "100%",
+    height: "100%",
+    top: 50,
+    left: 0,
     alignItems: "center",
     justifyContent: "center"
   }
 });
 class TestItem extends Component {
-  state = { charIndex: 0, userInput: [] };
+  state = {
+    charIndex: 0,
+    userInput: [],
+    letters: generateCharArrayWith(this.props.spelling, 5)
+  };
   handleInput(c) {
     const { spelling, mode, onComplete } = this.props;
 
@@ -37,10 +48,18 @@ class TestItem extends Component {
     );
   }
   componentWillReceiveProps() {
-    this.setState({ charIndex: 0, userInput: [] });
+    // this.setState({
+    //   charIndex: 0,
+    //   userInput: [],
+    //   letters: generateCharArrayWith(this.props.spelling, 5)
+    // });
+  }
+  componentDidMount() {
+    console.log("componentDidMount from TestItem");
   }
   render() {
     const { classes } = this.props;
+    console.log("classes.root is ", classes.root);
     return (
       <div className={classes.root}>
         <h2>{this.props.spelling}</h2>
@@ -52,10 +71,8 @@ class TestItem extends Component {
         </h2>
         {this.props.spelling.length > this.state.charIndex ? (
           <ButtonOptions
-            letters={generateRandomCharArray(
-              this.props.spelling.charAt(this.state.charIndex),
-              2
-            )}
+            letters={this.state.letters}
+            spelling={this.props.spelling}
             charIndex={this.state.charIndex}
             theLetter={this.props.spelling.charAt(this.state.charIndex)}
             //letters={["a", "b", "c", "d"]}

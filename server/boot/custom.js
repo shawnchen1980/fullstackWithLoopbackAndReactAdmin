@@ -14,7 +14,19 @@ module.exports = function(app) {
       // ctx.result[0].words.find().then(val => {
       //   ctx.result = val;
       //   console.log("ctx.args.filter", ctx.args.filter, ctx.args);
-      ctx.res.set("content-range", "words 0-7/8");
+      let count = ctx.result[1];
+      ctx.result = ctx.result[0];
+      let skip = 0;
+      let limit = 10;
+
+      if (ctx.args && ctx.args.filter) {
+        limit = ctx.args.filter.limit;
+        skip = ctx.args.filter.skip;
+      }
+      let last = Math.min(skip + limit, count);
+      console.log("ctx.args.filter", ctx.args.filter);
+
+      ctx.res.set("content-range", `words ${skip}-${last}/${count}`);
       //   next();
       // });
 

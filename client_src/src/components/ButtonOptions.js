@@ -102,16 +102,24 @@ class ButtonOptions extends Component {
     animated: false
   };
   render() {
-    const { classes, letters, userInput, theLetter, charIndex } = this.props;
+    const {
+      classes,
+      letters,
+      userInput,
+      theLetter,
+      charIndex,
+      spelling
+    } = this.props;
 
     return (
       <div className={classes.root}>
-        {letters.map(letter => {
+        {letters.map((letter, i) => {
           return (
             <ButtonOption
-              key={letter + charIndex}
+              key={letter + i}
               letter={letter}
               correct={letter === theLetter}
+              included={[...spelling].includes(letter)}
               userInput={userInput}
             />
           );
