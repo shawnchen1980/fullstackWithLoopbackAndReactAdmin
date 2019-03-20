@@ -6,6 +6,7 @@ import {
   generateCharArrayWith
 } from "../utilities/random";
 import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
   root: {
@@ -59,27 +60,46 @@ class TestItem extends Component {
   }
   render() {
     const { classes } = this.props;
-    console.log("classes.root is ", classes.root);
+    console.log("spelling,letters ", this.props.spelling, this.state.letters);
     return (
-      <div className={classes.root}>
-        <h2>{this.props.spelling}</h2>
-        <h2>
-          {this.state.userInput.join("") +
-            "_".repeat(
-              this.props.spelling.length - this.state.userInput.length
-            )}
-        </h2>
-        {this.props.spelling.length > this.state.charIndex ? (
-          <ButtonOptions
-            letters={this.state.letters}
-            spelling={this.props.spelling}
-            charIndex={this.state.charIndex}
-            theLetter={this.props.spelling.charAt(this.state.charIndex)}
-            //letters={["a", "b", "c", "d"]}
-            userInput={this.handleInput.bind(this)}
-          />
-        ) : null}
-      </div>
+      <Grid
+        item
+        container
+        alignItems="center"
+        justify="flex-start"
+        direction="column"
+        style={{ position: "absolute", top: 0, left: 0 }}
+      >
+        <Grid item>
+          <h2>{this.props.hint}</h2>
+        </Grid>
+        <Grid item>
+          <h2>{this.props.spelling}</h2>
+        </Grid>
+        <Grid item>
+          <h2>
+            {this.state.userInput.join("") +
+              "_".repeat(
+                this.props.spelling.length - this.state.userInput.length
+              )}
+          </h2>
+        </Grid>
+        <Grid item container justify="center" alignItems="center">
+          <Grid item>
+            {this.props.spelling.length > this.state.charIndex ? (
+              <ButtonOptions
+                key={this.props.spelling}
+                letters={this.state.letters}
+                spelling={this.props.spelling}
+                charIndex={this.state.charIndex}
+                theLetter={this.props.spelling.charAt(this.state.charIndex)}
+                //letters={["a", "b", "c", "d"]}
+                userInput={this.handleInput.bind(this)}
+              />
+            ) : null}
+          </Grid>
+        </Grid>
+      </Grid>
     );
   }
 }

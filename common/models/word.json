@@ -12,6 +12,10 @@
     "spelling": {
       "type": "string",
       "required": true
+    },
+    "translation": {
+      "type": "string",
+      "required": false
     }
   },
   "validations": [],

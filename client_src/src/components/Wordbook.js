@@ -7,6 +7,7 @@ import BrowseWordbookButton from "./BrowseWordbookButton";
 import MyArrayInput from "./MyArrayInput";
 import ControlledPanel from "./ControlledPanel";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import {
   List,
   Edit,
@@ -108,13 +109,31 @@ const WordbookActions = withRouter(({ basePath, data, resource, history }) => (
       color="primary"
       onClick={() => {
         console.log(basePath, data, resource, history);
-        history.push(`/wordsfrombooks/${data.id}/words`);
+        //history.push(`/wordsfrombooks/${data.id}/words`);
+        history.push(`/wordmappings`);
       }}
     >
       查看单词表
     </Button>
+    {/* <Button
+      color="primary"
+      onClick={() => {
+        console.log(basePath, data, resource, history);
+        //history.push(`/wordsfrombooks/${data.id}/words`);
+        history.push(`/wordmappings`);
+      }}
+    > */}
+    <Button
+      color="primary"
+      variant="raised"
+      component={Link}
+      to={`/wordmappings?action=test`}
+      label="Add a comment"
+      title="Add a comment"
+    >
+      进入练习
+    </Button>
     <CreatePracticeButton basePath={basePath} record={data} />
-    <BrowseWordbookButton basePath={basePath} record={data} />
   </CardActions>
 ));
 export const WordbookShow = props => (
@@ -144,6 +163,7 @@ export const WordbookCreate = props => (
       <ArrayInput source="words">
         <SimpleFormIterator>
           <TextInput source="spelling" />
+          <TextInput source="translation" />
         </SimpleFormIterator>
       </ArrayInput>
     </SimpleForm>

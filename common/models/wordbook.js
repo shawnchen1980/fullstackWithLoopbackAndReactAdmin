@@ -34,7 +34,12 @@ module.exports = function(Wordbook) {
         data.name = res[0].name;
         data.id = res[0].id;
         return Promise.all(
-          words.map(v => res[0].words.create({ spelling: v.spelling }))
+          words.map(v =>
+            res[0].words.create({
+              spelling: v.spelling,
+              translation: v.translation
+            })
+          )
         );
         //   console.log("warr", warr);
         //   callback(null, { ...res[0], words: warr });

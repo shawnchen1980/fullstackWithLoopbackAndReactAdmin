@@ -23,7 +23,7 @@ import {
   WordbookCreate,
   WordbookListHoc
 } from "./components/Wordbook";
-import { WordmappingList } from "./components/WordMapping";
+import WordmappingList from "./components/WordMapping";
 import {
   PracticeList,
   PracticeListHoc,
@@ -144,7 +144,7 @@ class App extends Component {
             edit={EditGuesser}
             create={WordCreate}
           />
-          <Resource name={`WordMappings`} list={WordTestList} />
+          <Resource name={`WordMappings`} list={WordmappingList} />
           <Resource name="sayhello" list={WTestList} />
           {/* <Resource name="sayhello" list={() => <div>hello world</div>} /> */}
           {/* <MyResource /> */}

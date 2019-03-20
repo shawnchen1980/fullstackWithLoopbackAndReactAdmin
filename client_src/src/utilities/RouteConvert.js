@@ -34,25 +34,36 @@ export default function(dataProvider) {
     }
     if (
       arr[0] &&
-      arr[0].toLowerCase() === "wordmappings" &&
+      (arr[0].toLowerCase() === "wordmappings" ||
+        arr[0].toLowerCase() === "words") &&
       (type === GET_LIST || type === GET_MANY_REFERENCE)
     ) {
-      return dataProvider(type, resource, {
+      return dataProvider(type, "wordmappings", {
         ...params,
         include: ["wordbook", "word"]
+      });
+    }
+    if (
+      arr[0] &&
+      (arr[0].toLowerCase() === "wordmappings" ||
+        arr[0].toLowerCase() === "words") &&
+      (type === DELETE || type === DELETE_MANY)
+    ) {
+      return dataProvider(type, "wordmappings", {
+        ...params
       });
     }
     if (resource === "sayhello") {
       return dataProvider(type, "wordbooks/hellowords", params);
     }
-    // if (arr[0] && arr[0].toLowerCase() === "words") {
-    //   const { filter, ...newp } = params;
-    //   if (!filter || !filter.api_url) {
-    //     return dataProvider(type, arr[0], params);
-    //   }
-    //   const { api_url, ...realFilter } = filter;
-    //   return dataProvider(type, api_url, { ...newp, filter: realFilter });
-    // }
+    if (arr[0] && arr[0].toLowerCase() === "words") {
+      const { filter, ...newp } = params;
+      if (!filter || !filter.api_url) {
+        return dataProvider(type, arr[0], params);
+      }
+      const { api_url, ...realFilter } = filter;
+      return dataProvider(type, api_url, { ...newp, filter: realFilter });
+    }
     return dataProvider(type, resource, params);
   };
 }

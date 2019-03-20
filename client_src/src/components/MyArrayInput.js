@@ -10,7 +10,11 @@ import {
 class TextAreaForArray extends Component {
   state = { text: "" };
   handleInput = () => {
-    const arr = this.state.text.split("/").map(v => ({ spelling: v }));
+    const arr = this.state.text.split("\n").map(v => {
+      const [spelling, translation] = v.split("/");
+      console.log(spelling, translation);
+      return { spelling, translation };
+    });
     const { openNext } = this.props;
     console.log(arr);
     console.log(this.props);

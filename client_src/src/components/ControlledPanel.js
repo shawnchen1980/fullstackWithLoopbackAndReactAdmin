@@ -85,6 +85,7 @@ class ControlledExpansionPanels extends React.Component {
             <ArrayInput source={source}>
               <SimpleFormIterator>
                 <TextInput source="spelling" />
+                <TextInput source="translation" />
               </SimpleFormIterator>
             </ArrayInput>
           </ExpansionPanelDetails>
